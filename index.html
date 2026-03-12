@@ -1,56 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EmailJS Image Upload</title>
+</head>
+<body>
+
 <form id="form">
   <div class="field">
     <label for="to_name">to_name</label>
-    <input type="text" name="to_name" id="to_name">
+    <input type="text" name="to_name" id="to_name" required>
   </div>
+
   <div class="field">
     <label for="from_name">from_name</label>
-    <input type="text" name="from_name" id="from_name">
+    <input type="text" name="from_name" id="from_name" required>
   </div>
+
   <div class="field">
     <label for="reply_to">reply_to</label>
-    <input type="text" name="reply_to" id="reply_to">
+    <input type="email" name="reply_to" id="reply_to" required>
   </div>
+
   <div class="field">
     <label for="subject">subject</label>
-    <input type="text" name="subject" id="subject">
+    <input type="text" name="subject" id="subject" required>
   </div>
+
   <div class="field">
     <label for="message">message</label>
-    <input type="text" name="message" id="message">
+    <input type="text" name="message" id="message" required>
   </div>
-  
-  
 
-  <input type="submit" id="button" value="Send Email" >
+  <!-- IMAGE UPLOAD FIELD -->
+  <div class="field">
+    <label for="image">Attach Image</label>
+    <input type="file" name="image" id="image" accept="image/*">
+  </div>
+
+  <input type="submit" id="button" value="Send Email">
 </form>
 
-<script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<script type="text/javascript">
-  emailjs.init('5TA9pvR69azAjTlBm')
+<script>
+  emailjs.init('5TA9pvR69azAjTlBm'); // your public key
 </script>
 
-<script type="text/javascript">
+<script>
   const btn = document.getElementById('button');
 
-  document.getElementById('form')
-    .addEventListener('submit', function(event) {
-      event.preventDefault();
+  document.getElementById('form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-      btn.value = 'Sending...';
+    btn.value = 'Sending...';
 
-      const serviceID = 'service_jlbk2ai';
-      const templateID = 'template_te9nw1u';
+    const serviceID = 'service_jlbk2ai';
+    const templateID = 'template_te9nw1u';
 
-      emailjs.sendForm(serviceID, templateID, this)
-        .then(() => {
-          btn.value = 'Send Email';
-          alert('Sent!');
-        }, (err) => {
-          btn.value = 'Send Email';
-          alert(JSON.stringify(err));
-        });
-    });
+    emailjs.sendForm(serviceID, templateID, this)
+      .then(() => {
+        btn.value = 'Send Email';
+        alert('Email Sent Successfully!');
+      }, (err) => {
+        btn.value = 'Send Email';
+        alert(JSON.stringify(err));
+      });
+  });
 </script>
+
+</body>
+</html>
