@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EmailJS Multiple Image Upload + Preview</title>
+  <title>FormSubmit Multiple Image Upload + Preview</title>
 
   <style>
     body {
@@ -34,11 +34,17 @@
 
     input[type="text"],
     input[type="email"],
-    input[type="file"] {
+    input[type="file"],
+    textarea {
       width: 100%;
       padding: 8px;
       font-size: 14px;
       margin-top: 3px;
+    }
+
+    textarea {
+      height: 80px;
+      resize: vertical;
     }
 
     #preview-box {
@@ -63,7 +69,7 @@
 
 <!-- FORM SECTION -->
 <div class="container">
-  <form id="form">
+  <form id="form" action="https://formsubmit.co/anonymousjustlc31@gmail.com" method="POST" enctype="multipart/form-data">
 
     <div class="field">
       <label for="to_name">Recipient Name</label>
@@ -79,7 +85,7 @@
 
     <div class="field">
       <label for="reply_to">Reply-To Email</label>
-      <input type="email" name="reply_to" id="reply_to" placeholder="e.g., you@example.com" required>
+      <input type="email" name="email" id="reply_to" placeholder="e.g., you@example.com" required>
       <small>This MUST be a valid email address</small>
     </div>
 
@@ -91,15 +97,19 @@
 
     <div class="field">
       <label for="message">Message</label>
-      <input type="text" name="message" id="message" placeholder="Write your message here..." required>
+      <textarea name="message" id="message" placeholder="Write your message here..." required></textarea>
       <small>The main content of your email</small>
     </div>
 
     <div class="field">
       <label for="images">Attach Images</label>
-      <input type="file" name="images" id="images" accept="image/*" multiple>
+      <input type="file" name="attachments" id="images" accept="image/*" multiple>
       <small>You can upload multiple images</small>
     </div>
+
+    <!-- FormSubmit settings -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="box">
 
     <input type="submit" id="button" value="Send Email">
   </form>
@@ -120,33 +130,8 @@
   </div>
 </div>
 
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-<script>
-  emailjs.init('5TA9pvR69azAjTlBm');
-</script>
-
 <script>
   const btn = document.getElementById('button');
-
-  document.getElementById('form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    btn.value = 'Sending...';
-
-    const serviceID = 'service_jlbk2ai';
-    const templateID = 'template_te9nw1u';
-
-    emailjs.sendForm(serviceID, templateID, this)
-      .then(() => {
-        btn.value = 'Send Email';
-        alert('Email Sent Successfully!');
-      }, (err) => {
-        btn.value = 'Send Email';
-        alert(JSON.stringify(err));
-      });
-  });
 
   // LIVE PREVIEW UPDATES
   const fields = ["to_name", "from_name", "reply_to", "subject", "message"];
